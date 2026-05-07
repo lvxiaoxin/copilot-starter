@@ -28,21 +28,9 @@ Fuzzy search · Project grouping · Live preview · One-key resume.
 
 ## English
 
-```
-┌─ Sessions ──────────────────────────────┐  ┌─ Preview ────────────────────────────┐
-│ + New Session — start a fresh session   │  │  Configure Copilot MCP Servers       │
-│ ● copilot-starter [LOCKED] Create…      │  │  b08615e2-…                          │
-│ ● lvxin Configure Copilot MCP Servers   │  │                                      │
-│                                         │  │  cwd      ~/lvxin                    │
-│                                         │  │  project  lvxin                      │
-│                                         │  │  messages 3                          │
-│                                         │  │                                      │
-│                                         │  │  Recent turns                        │
-│                                         │  │  ▸ user  add the github mcp server   │
-│                                         │  │  ▸ assistant  Done — wrote ~/.copilot/…│
-└─────────────────────────────────────────┘  └──────────────────────────────────────┘
- ↑↓/jk nav • Enter resume • n new • / search • p project • s sort • r rename • c copy id • x delete • q quit
-```
+<p align="center">
+  <img src="./sample.png" alt="copilot-starter TUI — sessions list on the left, live preview on the right" width="900">
+</p>
 
 ### Table of Contents
 
