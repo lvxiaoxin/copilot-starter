@@ -8,7 +8,8 @@
   },
   "scripts": {
     "start": "node index.js",
-    "test": "node --test --test-force-exit \"test/*.test.js\""
+    "test": "node --test --test-force-exit \"test/*.test.js\"",
+    "prepublishOnly": "npm test"
   },
   "keywords": [
     "github",
@@ -26,17 +27,30 @@
   ],
   "author": "lvxin",
   "license": "MIT",
+  "homepage": "https://github.com/lvxiaoxin/copilot-starter#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lvxiaoxin/copilot-starter.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lvxiaoxin/copilot-starter/issues"
+  },
   "engines": {
     "node": ">=20"
   },
   "files": [
     "index.js",
     "lib/",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "better-sqlite3": "^11.5.0",
     "blessed": "^0.1.81",
     "js-yaml": "^4.1.0"
   }
 }
+
