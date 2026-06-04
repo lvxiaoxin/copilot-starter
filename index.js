@@ -58,6 +58,39 @@ function projectColor(s) {
   return PROJECT_COLORS[h % PROJECT_COLORS.length];
 }
 
+// Pick the terminal type blessed should target.
+//
+// blessed has no truecolor support; it downsamples every hex color to the
+// terminal's declared color count. macOS/iTerm2 sets $TERM=xterm-256color
+// (256 colors), so the Tokyo Night palette renders well. On Windows Terminal
+// $TERM is usually unset, and blessed's Tput falls back to the `windows-ansi`
+// terminfo — which declares only 8 colors — collapsing the whole palette into
+// 8 washed-out ANSI colors. Forcing `xterm-256color` (bundled with blessed and
+// supported by Windows Terminal) fixes that.
+//
+// We force it only when we have positive evidence of a capable terminal, so we
+// never "lie" to a genuinely limited terminal (TERM=linux/vt100/dumb, legacy
+// consoles) and make its output worse.
+function pickTerminal() {
+  // Explicit escape hatch for unusual terminals.
+  if (process.env.COPILOT_STARTER_TERM) return process.env.COPILOT_STARTER_TERM;
+
+  const term = process.env.TERM || '';
+
+  // Trust an environment that already advertises 256-color or truecolor.
+  if (/(^|-)256color$/.test(term) || /direct|truecolor/i.test(term)) return undefined;
+
+  // Windows Terminal sets WT_SESSION and natively supports xterm-256color.
+  if (process.env.WT_SESSION) return 'xterm-256color';
+
+  // On Windows with no $TERM, blessed would fall back to windows-ansi (8
+  // colors). Modern Windows consoles support 256-color VT sequences.
+  if (process.platform === 'win32' && !term) return 'xterm-256color';
+
+  // Otherwise leave detection to blessed.
+  return undefined;
+}
+
 // Read package version without bundling JSON.
 function readVersion() {
   try {
@@ -261,6 +294,7 @@ async function runTui(store, args) {
     title: 'copilot-starter',
     autoPadding: false,
     warnings: false,
+    terminal: pickTerminal(),
   });
 
   const header = blessed.box({

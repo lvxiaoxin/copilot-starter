@@ -10,7 +10,7 @@ Fuzzy search · Project grouping · Live preview · One-key resume.
 [![Node](https://img.shields.io/badge/node-%3E%3D20-brightgreen?logo=node.js)](https://nodejs.org)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 [![Tests](https://img.shields.io/badge/tests-23%20passing-brightgreen)](./test)
-[![Made with Copilot CLI](https://img.shields.io/badge/built%20with-Copilot%20CLI-24292e?logo=github)](https://github.com/github/gh-copilot)
+[![Made with Copilot CLI](https://img.shields.io/badge/built%20with-Copilot%20CLI-24292e?logo=github)](https://github.com/github/copilot-cli)
 
 [English](#english) · [中文](#中文)
 
@@ -77,9 +77,15 @@ The built-in `copilot --resume` opens a picker over UUIDs and names — no proje
 
 ### Installation
 
-> **Requirements:** [Node.js](https://nodejs.org) **20+** and the [GitHub Copilot CLI](https://github.com/github/gh-copilot) on your `$PATH`.
+> **Requirements:** [Node.js](https://nodejs.org) **20+** and the [GitHub Copilot CLI](https://github.com/github/copilot-cli) (the `copilot` binary) on your `$PATH`.
 
-📦 Available on npm: **[`copilot-starter`](https://www.npmjs.com/package/copilot-starter)**
+If you don't already have the Copilot CLI, install it first (tested against Copilot CLI **1.0.x**):
+
+```bash
+npm install -g @github/copilot   # provides the `copilot` binary
+```
+
+📦 Then install copilot-starter — available on npm: **[`copilot-starter`](https://www.npmjs.com/package/copilot-starter)**
 
 ```bash
 # Run without installing
@@ -91,6 +97,8 @@ copilot-starter
 ```
 
 > 💡 **Windows note:** `better-sqlite3` may need build tools (Visual Studio Build Tools or `windows-build-tools`). macOS arm64/x64 and Linux x64/arm64 ship prebuilt binaries.
+>
+> 🎨 **Windows colors:** copilot-starter forces the `xterm-256color` profile so the Tokyo Night palette renders correctly in **Windows Terminal** (which otherwise falls back to an 8-color profile when `$TERM` is unset, washing the colors out). Override with `COPILOT_STARTER_TERM=<terminfo>` if your terminal needs a different profile.
 
 ### Usage
 
