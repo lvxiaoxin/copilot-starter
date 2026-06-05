@@ -740,7 +740,9 @@ async function runTui(store, args) {
   function spawnCopilot({ id = null, cwd = null } = {}) {
     const args2 = [];
     if (id) args2.push('--resume', id);
-    const opts = { stdio: 'inherit', shell: false };
+    // On Windows, `copilot` is a `.cmd`/`.ps1` shim. Since Node 18.20.2/20.12.2,
+    // spawning such shims with `shell: false` throws EINVAL, so use a shell there.
+    const opts = { stdio: 'inherit', shell: process.platform === 'win32' };
     if (cwd && fs.existsSync(cwd)) opts.cwd = cwd;
     let child;
     try {
