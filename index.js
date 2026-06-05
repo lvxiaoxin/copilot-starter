@@ -16,6 +16,7 @@ const { spawn } = require('child_process');
 
 const { parseArgs, HELP } = require('./lib/cli');
 const { SessionStore } = require('./lib/sessions');
+const { copilotSpawnConfig } = require('./lib/launch');
 const {
   SORT_MODES,
   sortSessions,
@@ -738,12 +739,16 @@ async function runTui(store, args) {
 
   // ----- Spawn copilot (resume / new) -----
   function spawnCopilot({ id = null, cwd = null } = {}) {
-    const args2 = [];
-    if (id) args2.push('--resume', id);
-    // On Windows, `copilot` is a `.cmd`/`.ps1` shim. Since Node 18.20.2/20.12.2,
-    // spawning such shims with `shell: false` throws EINVAL, so use a shell there.
-    const opts = { stdio: 'inherit', shell: process.platform === 'win32' };
-    if (cwd && fs.existsSync(cwd)) opts.cwd = cwd;
+    let launch;
+    try {
+      launch = copilotSpawnConfig({
+        id,
+        cwd: cwd && fs.existsSync(cwd) ? cwd : null,
+      });
+    } catch (e) {
+      flash(e.message);
+      return;
+    }
     let child;
     try {
       // Tear down TUI first so child owns the TTY.
@@ -751,7 +756,7 @@ async function runTui(store, args) {
       store.close();
     } catch { /* noop */ }
     try {
-      child = spawn('copilot', args2, opts);
+      child = spawn(launch.command, launch.args, launch.options);
     } catch (e) {
       process.stderr.write(`error: failed to spawn copilot: ${e.message}\n`);
       process.exit(1);

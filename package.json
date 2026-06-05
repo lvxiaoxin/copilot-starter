@@ -1,10 +1,10 @@
 {
   "name": "copilot-starter",
-  "version": "0.1.2",
+  "version": "0.1.4",
   "description": "A beautiful terminal UI for managing GitHub Copilot CLI sessions — start new or resume past conversations",
   "main": "index.js",
   "bin": {
-    "copilot-starter": "./index.js"
+    "copilot-starter": "index.js"
   },
   "scripts": {
     "start": "node index.js",
